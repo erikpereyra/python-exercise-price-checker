@@ -1,0 +1,50 @@
+import tkinter as tk
+from tkinter import messagebox
+
+# Diccionario de productos con precios, descuentos y IVA
+productos = {
+    "producto1": (100, 10, 16),
+    "producto2": (500, 15, 18),
+    "producto3": (300, 20, 8),
+    "producto4": (200, 5, 20)
+}
+
+def calcular_descuento(precio, descuento):
+    return precio - (precio * descuento / 100)
+
+def calcular_precio_final_con_iva(precio, iva):
+    return precio + (precio * iva / 100)
+
+def obtener_precio_final(nombre_producto):
+    if nombre_producto in productos:
+        precio, descuento, iva = productos[nombre_producto]
+        precio_con_descuento = calcular_descuento(precio, descuento)
+        precio_final = calcular_precio_final_con_iva(precio_con_descuento, iva)
+        return precio_final
+    else:
+        return None
+
+def mostrar_precio():
+    nombre_producto = entry.get().strip()
+    precio_final = obtener_precio_final(nombre_producto)
+    if precio_final is not None:
+        messagebox.showinfo("Precio Final", f"El precio final de {nombre_producto} con descuento e IVA es: {precio_final}")
+    else:
+        messagebox.showerror("Error", "Producto no encontrado")
+
+# Crear la ventana principal
+root = tk.Tk()
+root.title("Calculador de Precios")
+
+# Crear y colocar los widgets
+label = tk.Label(root, text="Ingresa el nombre del producto:")
+label.pack(pady=10)
+
+entry = tk.Entry(root)
+entry.pack(pady=5)
+
+button = tk.Button(root, text="Calcular Precio", command=mostrar_precio)
+button.pack(pady=20)
+
+# Iniciar el loop principal de la ventana
+root.mainloop()
